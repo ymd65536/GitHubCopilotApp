@@ -955,7 +955,7 @@ function renderShell(documentId) {
           <div class="menu">
             <button class="menu-button" id="new-game">New Game</button>
             <button class="menu-button" id="load-game" disabled>Load Game</button>
-            <button class="menu-button" disabled>Gallery</button>
+            <button class="menu-button" id="gallery-button">Gallery</button>
             <button class="menu-button" disabled>Settings</button>
             <button class="menu-button" id="about-canvas">About Canvas</button>
           </div>
@@ -1082,6 +1082,7 @@ function renderShell(documentId) {
       const gameScene = document.getElementById('game-scene');
       const LIVE_DOCUMENT_ID = 'default';
       const SAVE_DOCUMENT_ID = '__save_slot__';
+      const galleryButton = document.getElementById('gallery-button');
       const nextButton = document.getElementById('next-button');
       const backTitleButton = document.getElementById('back-title');
       const saveGameButton = document.getElementById('save-game');
@@ -1921,6 +1922,9 @@ function renderShell(documentId) {
       });
       aboutPanel.addEventListener('click', (event) => {
         if (event.target === aboutPanel) aboutPanel.hidden = true;
+      });
+      galleryButton.addEventListener('click', () => {
+        window.open('https://github.com/sindresorhus/awesome-github-copilot', '_blank', 'noopener,noreferrer');
       });
 
       document.getElementById('new-game').addEventListener('click', async () => {
