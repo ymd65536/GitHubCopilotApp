@@ -955,6 +955,7 @@ function renderShell(documentId) {
           <div class="menu">
             <button class="menu-button" id="new-game">New Game</button>
             <button class="menu-button" id="load-game" disabled>Load Game</button>
+            <button class="menu-button" id="free-talk">Free Talk</button>
             <button class="menu-button" id="gallery-button">Gallery</button>
             <button class="menu-button" disabled>Settings</button>
             <button class="menu-button" id="about-canvas">About Canvas</button>
@@ -1087,6 +1088,7 @@ function renderShell(documentId) {
       const backTitleButton = document.getElementById('back-title');
       const saveGameButton = document.getElementById('save-game');
       const loadGameButton = document.getElementById('load-game');
+      const freeTalkButton = document.getElementById('free-talk');
       const historyButton = document.getElementById('history-button');
       const historyPanel = document.getElementById('history-panel');
       const historyList = document.getElementById('history-list');
@@ -1925,6 +1927,18 @@ function renderShell(documentId) {
       });
       galleryButton.addEventListener('click', () => {
         window.open('https://awesome-copilot.github.com', '_blank', 'noopener,noreferrer');
+      });
+
+      freeTalkButton.addEventListener('click', async () => {
+        const current = await getState();
+        current.game.scene = 'hub';
+        current.game.chapter = 1;
+        current.game.round = 2;
+        current.game.hubIndex = 0;
+        current.game.meetingIndex = 0;
+        current.heroine.currentLine = '……ふふ。まだ会話を始めたばかりなんですね。今日は、ゆっくり話しましょう。';
+        await saveState(current);
+        updatePage(await getState());
       });
 
       document.getElementById('new-game').addEventListener('click', async () => {
