@@ -414,8 +414,8 @@ function renderShell(documentId) {
       }
       .title-jp {
         margin: 0;
-        font-size: clamp(1.7rem, 3.1vw, 3.8rem);
-        line-height: 1.28;
+        font-size: clamp(5.1rem, 8vw, 11.4rem);
+        line-height: 1.12;
         font-weight: 700;
         letter-spacing: 0.06em;
         font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
