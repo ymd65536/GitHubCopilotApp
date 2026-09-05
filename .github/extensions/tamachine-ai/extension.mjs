@@ -99,7 +99,7 @@ const session = await joinSession({
         createCanvas({
             id: "tamachine-ai",
             displayName: "たまに機械語でデレる隣のAIさん",
-            description: "タイトル画面から始まる恋愛シミュレーションのMVP。",
+            description: "AIヒロインとの出会いから始まる、学び合う恋愛シミュレーションのMVP。自律型運用 × 恋愛シミュレーション。",
             inputSchema: {
                 type: "object",
                 properties: {
@@ -215,7 +215,7 @@ const session = await joinSession({
                     servers.set(ctx.instanceId, entry);
                 }
                 return {
-                    title: "たまに機械語でデレる隣のAIさん",
+                    title: "たまに機械語でデレる隣のAIさん / 自律型運用 × 恋愛シミュレーション",
                     url: entry.url,
                 };
             },
