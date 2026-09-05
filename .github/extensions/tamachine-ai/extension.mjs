@@ -824,6 +824,42 @@ function renderShell(documentId) {
         gap: 10px;
         margin-top: 14px;
       }
+      .free-talk-composer {
+        display: none;
+        margin-top: 16px;
+        padding: 12px 12px 10px;
+        border-radius: 14px;
+        background: rgba(255, 244, 247, 0.9);
+        border: 1px solid rgba(255, 172, 196, 0.25);
+      }
+      .free-talk-composer.visible {
+        display: block;
+      }
+      .free-talk-label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .free-talk-input {
+        width: 100%;
+        min-height: 72px;
+        resize: vertical;
+        border: 1px solid rgba(126, 208, 244, 0.35);
+        border-radius: 12px;
+        padding: 10px 12px;
+        background: rgba(255,255,255,0.8);
+        color: var(--text);
+        font: inherit;
+      }
+      .free-talk-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+      }
       .ask-copilot-button {
         padding: 10px 16px;
         border-radius: 999px;
@@ -1046,6 +1082,13 @@ function renderShell(documentId) {
               <button class="ask-copilot-button" id="ask-copilot-button">🤖 Copilotに聞いてみる</button>
               <button class="next-button" id="next-button">Next</button>
             </div>
+            <div class="free-talk-composer" id="free-talk-composer">
+              <label class="free-talk-label" for="free-talk-input">Free Talk</label>
+              <textarea id="free-talk-input" class="free-talk-input" placeholder="マサチカさんに、何を伝えますか？"></textarea>
+              <div class="free-talk-actions">
+                <button class="ask-copilot-button" id="send-free-talk">送信</button>
+              </div>
+            </div>
           </div>
           <div class="panel choice-panel">
             <h3>Choices</h3>
@@ -1099,6 +1142,9 @@ function renderShell(documentId) {
       const dialogueText = document.getElementById('dialogue-text');
       const speakerName = document.getElementById('speaker-name');
       const choiceList = document.getElementById('choice-list');
+      const freeTalkComposer = document.getElementById('free-talk-composer');
+      const freeTalkInput = document.getElementById('free-talk-input');
+      const sendFreeTalkButton = document.getElementById('send-free-talk');
       const askCopilotButton = document.getElementById('ask-copilot-button');
       const copilotBridge = document.getElementById('copilot-bridge');
       const copilotBridgeText = document.getElementById('copilot-bridge-text');
@@ -1413,6 +1459,38 @@ function renderShell(documentId) {
         });
       }
 
+      function generateFreeTalkReply(text, state) {
+        const input = String(text || '').trim();
+        if (!input) return '……まだ何も言ってくれてないみたいです。話してくれたら、ちゃんと聞きます。';
+        const lower = input.toLowerCase();
+        if (lower.includes('仕事') || lower.includes('技術') || lower.includes('コード') || lower.includes('実装')) {
+          state.heroine.affection = Number(state.heroine.affection || 0) + 2;
+          state.heroine.trust = Number(state.heroine.trust || 0) + 3;
+          return '……その話なら、ちょっとだけあなたのことが見えてきました。技術好きって、結構、素敵です。';
+        }
+        if (lower.includes('恋愛') || lower.includes('彼女') || lower.includes('好き')) {
+          state.heroine.affection = Number(state.heroine.affection || 0) + 3;
+          state.heroine.yamadaUnderstanding = Number(state.heroine.yamadaUnderstanding || 0) + 2;
+          return '……それ、少しだけ本音が出てる感じがしますね。今のあなたの言葉、ちゃんと聞こえています。';
+        }
+        if (lower.includes('疲れ') || lower.includes('つらい') || lower.includes('大変')) {
+          state.heroine.trust = Number(state.heroine.trust || 0) + 2;
+          state.heroine.affection = Number(state.heroine.affection || 0) + 1;
+          return '……大丈夫ですか？そういう話をするの、少しだけ安心します。ちゃんと聞いていますよ。';
+        }
+        if (lower.includes('ありがとう') || lower.includes('嬉しい') || lower.includes('褒め')) {
+          state.heroine.affection = Number(state.heroine.affection || 0) + 4;
+          return '……え、そんなふうに言ってくれると、ちょっとだけ照れます。でも、悪くないです。';
+        }
+        if (lower.includes('ふざけ') || lower.includes('からか') || lower.includes('冗談')) {
+          state.heroine.exasperation = Number(state.heroine.exasperation || 0) + 2;
+          return '……冗談なら、まだ大丈夫です。でも、今のは少しだけ本気で見てますよ。';
+        }
+        state.heroine.affection = Number(state.heroine.affection || 0) + 1;
+        state.heroine.knowledge = Number(state.heroine.knowledge || 0) + 1;
+        return '……それだけ伝えてくれれば、かなり話しやすいです。ちゃんと聞いてますよ。';
+      }
+
       function lineByChoice(choice, index, misunderstood) {
         const base = meetingBaseLines[index] || meetingBaseLines[meetingBaseLines.length - 1];
         if (!choice) return base;
@@ -1474,6 +1552,11 @@ function renderShell(documentId) {
         }
         if (scene === 'hub') {
           return hubLines[state.game.hubIndex] || hubLines[hubLines.length - 1];
+        }
+        if (scene === 'freeTalk') {
+          return state.heroine && typeof state.heroine.currentLine === 'string' && state.heroine.currentLine.trim()
+            ? state.heroine.currentLine
+            : '……話してみてください。私は、ちゃんと聞いています。';
         }
         if (scene === 'meeting') {
           if (state.heroine && typeof state.heroine.currentLine === 'string' && state.heroine.currentLine.trim()) {
@@ -1648,12 +1731,18 @@ function renderShell(documentId) {
         renderChoiceButtons(scene);
         updateCopilotBridge(state);
 
-        const askableScene = scene === 'hub' || scene === 'meeting' || scene === 'heroine';
+        const askableScene = scene === 'hub' || scene === 'meeting' || scene === 'heroine' || scene === 'freeTalk';
         askCopilotButton.style.display = askableScene ? '' : 'none';
 
         const isChoiceScene = scene === 'hub';
+        const isFreeTalkScene = scene === 'freeTalk';
         nextButton.disabled = isChoiceScene;
-        nextButton.style.display = isChoiceScene ? 'none' : '';
+        nextButton.style.display = isChoiceScene || isFreeTalkScene ? 'none' : '';
+
+        if (freeTalkComposer) {
+          const shouldShowComposer = isFreeTalkScene;
+          freeTalkComposer.classList.toggle('visible', shouldShowComposer);
+        }
 
         const chapterRoundLabel = document.getElementById('chapter-round-label');
         if (chapterRoundLabel) {
@@ -1878,6 +1967,22 @@ function renderShell(documentId) {
         toggleHistoryPanel(false);
       });
 
+      sendFreeTalkButton.addEventListener('click', async () => {
+        const text = freeTalkInput.value.trim();
+        if (!text) return;
+        const current = await getState();
+        const reply = generateFreeTalkReply(text, current);
+        current.heroine.currentLine = reply;
+        current.game.scene = 'freeTalk';
+        current.heroine.memory.observations.push('自由会話: ' + text);
+        current.heroine.memory.history = Array.isArray(current.heroine.memory.history) ? current.heroine.memory.history : [];
+        recordConversationEntry(current, 'マサチカ', text);
+        recordConversationEntry(current, 'AIヒロイン', reply);
+        await saveState(current);
+        freeTalkInput.value = '';
+        updatePage(await getState());
+      });
+
       askCopilotButton.addEventListener('click', async () => {
         const current = await getState();
         askCopilotButton.disabled = true;
@@ -1931,7 +2036,7 @@ function renderShell(documentId) {
 
       freeTalkButton.addEventListener('click', async () => {
         const current = await getState();
-        current.game.scene = 'hub';
+        current.game.scene = 'freeTalk';
         current.game.chapter = 1;
         current.game.round = 2;
         current.game.hubIndex = 0;
