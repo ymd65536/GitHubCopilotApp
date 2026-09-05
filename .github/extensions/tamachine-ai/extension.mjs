@@ -414,7 +414,7 @@ function renderShell(documentId) {
       }
       .title-jp {
         margin: 0;
-        font-size: clamp(5.1rem, 8vw, 11.4rem);
+        font-size: clamp(4.1rem, 6.4vw, 9.1rem);
         line-height: 1.12;
         font-weight: 700;
         letter-spacing: 0.06em;
