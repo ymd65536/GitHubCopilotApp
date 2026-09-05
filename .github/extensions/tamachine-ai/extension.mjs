@@ -1924,7 +1924,7 @@ function renderShell(documentId) {
         if (event.target === aboutPanel) aboutPanel.hidden = true;
       });
       galleryButton.addEventListener('click', () => {
-        window.open('https://github.com/sindresorhus/awesome-github-copilot', '_blank', 'noopener,noreferrer');
+        window.open('https://awesome-copilot.github.com', '_blank', 'noopener,noreferrer');
       });
 
       document.getElementById('new-game').addEventListener('click', async () => {
