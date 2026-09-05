@@ -414,23 +414,38 @@ function renderShell(documentId) {
       }
       .title-jp {
         margin: 0;
-        font-size: clamp(1.7rem, 3.1vw, 3.6rem);
-        line-height: 1.35;
-        font-weight: 500;
-        letter-spacing: 0.04em;
+        font-size: clamp(1.7rem, 3.1vw, 3.8rem);
+        line-height: 1.28;
+        font-weight: 700;
+        letter-spacing: 0.06em;
         font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
-        text-shadow: 0 2px 0 rgba(255,255,255,0.9), 0 1px 10px rgba(0,0,0,0.06);
+        text-shadow: 0 2px 0 rgba(255,255,255,0.9), 0 1px 12px rgba(0,0,0,0.06);
       }
       .title-jp .title-line { display: block; }
-      .title-jp .title-line.pink { color: #ec4d8d; }
-      .title-jp .title-line.orange { color: #f5a623; }
+      .title-jp .title-line.pink {
+        color: #ec4d8d;
+        filter: drop-shadow(0 4px 0 rgba(255,255,255,0.7));
+      }
+      .title-jp .title-line.orange {
+        color: #f5a623;
+        filter: drop-shadow(0 4px 0 rgba(255,255,255,0.7));
+      }
+      .title-tag {
+        margin-top: 14px;
+        font-size: clamp(0.62rem, 1.1vw, 0.8rem);
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #4a7a99;
+        opacity: 0.9;
+      }
       .subtitle {
-        margin-top: 18px;
-        font-size: clamp(0.8rem, 1.5vw, 1.1rem);
-        letter-spacing: 0.11em;
+        margin-top: 16px;
+        font-size: clamp(0.8rem, 1.5vw, 1.12rem);
+        letter-spacing: 0.12em;
         color: #d6006f;
-        font-weight: 600;
-        opacity: 0.75;
+        font-weight: 700;
+        opacity: 0.8;
       }
       .menu {
         margin-top: 36px;
@@ -935,6 +950,7 @@ function renderShell(documentId) {
       <section id="title-screen" class="title-screen">
         <div class="title-card">
           <h1 class="title-jp"><span class="title-line pink">たまに機械語で</span><span class="title-line orange">デレる隣のAIさん</span></h1>
+          <div class="title-tag">Episode 01 • 彼女が、私を観察し始めた</div>
           <div class="subtitle">自律型運用 × 恋愛シミュレーション</div>
           <div class="menu">
             <button class="menu-button" id="new-game">New Game</button>
