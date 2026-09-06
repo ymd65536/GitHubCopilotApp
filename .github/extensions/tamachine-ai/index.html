@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>たまに機械語でデレる隣のAIさん</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="titleScreen" class="title-screen">
+      <div class="title-card">
+        <h1 class="title-jp">
+          <span class="title-line pink">たまに機械語で</span>
+          <span class="title-line orange">デレる隣のAIさん</span>
+        </h1>
+        <div class="subtitle">自律型運用 × 恋愛シミュレーション</div>
+        <div class="menu">
+          <button id="newGameBtn" class="menu-button">New Game</button>
+          <button id="loadGameBtn" class="menu-button" disabled>Load Game</button>
+          <button id="freeTalkBtn" class="menu-button">Free Talk</button>
+          <button id="galleryBtn" class="menu-button">Gallery</button>
+          <button class="menu-button" disabled>Settings</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="gameScreen" class="game-screen hidden">
+      <aside class="panel character-panel">
+        <div id="avatar" class="avatar">M</div>
+        <div class="character-name" id="characterName">マサチカ</div>
+        <p id="characterSummary" class="personality"></p>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar panel">
+          <span id="chapterLabel">Chapter 0</span>
+          <div class="top-actions">
+            <button id="historyBtn" class="mini-btn">History</button>
+            <button id="saveBtn" class="mini-btn">Save</button>
+            <button id="titleBtn" class="mini-btn">Top</button>
+          </div>
+        </header>
+
+        <div id="statusPanel" class="panel status-panel">
+          <div class="status-flash" id="statusFlash"></div>
+          <div class="stats-grid">
+            <div class="stat-box"><span>好感度</span><strong id="affectionValue">0</strong></div>
+            <div class="stat-box"><span>信頼度</span><strong id="trustValue">0</strong></div>
+            <div class="stat-box"><span>AI自律性</span><strong id="autonomyValue">0</strong></div>
+            <div class="stat-box"><span>知識量</span><strong id="knowledgeValue">0</strong></div>
+            <div class="stat-box"><span>山田理解度</span><strong id="understandingValue">0</strong></div>
+            <div class="stat-box"><span>呆れ度</span><strong id="exasperationValue">0</strong></div>
+          </div>
+        </div>
+
+        <div class="panel dialogue-box">
+          <div class="dialogue-header">
+            <div id="speakerName" class="speaker-name">主人公</div>
+            <div class="dialogue-tabs">
+              <button class="tab-button active" data-tab="heroine">Heroine</button>
+              <button class="tab-button" data-tab="copilot">Copilot</button>
+            </div>
+          </div>
+          <div id="dialogueText" class="dialogue-text"></div>
+          <div id="copilotBridge" class="copilot-bridge hidden"></div>
+          <div class="dialogue-actions">
+            <button id="askCopilotBtn" class="soft-button">Copilotに聞いてみる</button>
+            <button id="nextBtn" class="primary-button">Next</button>
+          </div>
+          <div id="freeTalkComposer" class="free-talk hidden">
+            <label for="freeTalkInput">Free Talk</label>
+            <textarea id="freeTalkInput" placeholder="何を伝えますか？"></textarea>
+            <div class="free-talk-actions">
+              <button id="sendFreeTalkBtn" class="soft-button">送信</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel choice-panel">
+          <h3>Choices</h3>
+          <div id="choiceList" class="choice-list"></div>
+        </div>
+      </main>
+    </div>
+
+    <div id="endingScreen" class="ending-screen hidden">
+      <div class="ending-card">
+        <div class="ending-kicker">Finale</div>
+        <h2 id="endingTitle">HAPPY END</h2>
+        <p id="endingSummary"></p>
+        <div class="ending-actions">
+          <button id="endingRetryBtn" class="primary-button">もう一度</button>
+          <button id="endingTopBtn" class="soft-button">Top</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="historyPanel" class="history-panel hidden">
+      <div class="history-header">
+        <span>会話履歴</span>
+        <button id="historyCloseBtn" class="mini-btn">閉じる</button>
+      </div>
+      <div id="historyList" class="history-list"></div>
+    </div>
+
+    <script type="module" src="/app.mjs"></script>
+  </body>
+</html>
