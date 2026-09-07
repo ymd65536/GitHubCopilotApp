@@ -4,6 +4,8 @@
 
 これは GitHub Copilot Canvas 向けに作成した、タイトル画面から始まる軽い恋愛シミュレーションの MVP です。
 
+<img width="620" height="720" alt="image" src="https://github.com/user-attachments/assets/14d99ddf-902a-4132-8a84-e3149d5ea365" />
+
 ## 概要
 
 - 32歳の現役エンジニア「マサチカ」が主人公
